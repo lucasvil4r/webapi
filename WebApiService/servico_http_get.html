@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html ng-app="appAngular">
+
+<head>
+    <title>Serviços</title>
+    <link href="../css/estilos.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <style>
+        table, tr, td, th {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body ng-controller="Principal as ctl">
+    <h2>Serviço $http para listar produtos</h2>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Descrição</th>
+            <th>Data Criação</th>
+            <th>Preço</th>
+        </tr>
+        <tbody ng-repeat="produto in ctl.items">
+            <tr>
+                <td>{{produto.Id}}</td>
+                <td>{{produto.Descricao}}</td>
+                <td>{{produto.DataCriacao}}</td>
+                <td>{{produto.Preco}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script type="text/javascript">
+        angular.module("appAngular", [])
+            .controller('Principal', ['$http', function ($http) {
+                var self = this;
+
+                self.items = [];
+
+                $http.get('http://localhost:7628/api/produtos/').then(function (response) {
+                    self.items = response.data;
+                }, function (error) {
+                    alert('Erro reportado: ' + error);
+                });
+            }]);
+    </script>
+
+</body>
+</html>
